@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <variable
+                name="dataModel"
+                type="com.anderson.androidtrend.model.Item"/>
+    </data>
+
+    <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:foreground="?android:attr/selectableItemBackground">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp">
+
+            <ImageView
+                    android:id="@+id/avatars"
+                    tools:src="@drawable/square"
+                    app:imageUrl="@{dataModel.owner.avatarUrl}"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/name"
+                    app:layout_constraintBottom_toTopOf="@id/description"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintTop_toBottomOf="@+id/description"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintVertical_chainStyle="spread"
+                    />
+
+            <TextView
+                    android:id="@+id/name"
+                    android:text="@{dataModel.owner.login}"
+                    tools:text="PhilJay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    app:layout_constraintStart_toEndOf="@+id/avatars"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/separator"
+                    app:layout_constraintBottom_toTopOf="@id/description"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintVertical_chainStyle="spread"
+                    />
+
+            <TextView
+                    android:id="@+id/separator"
+                    android:text=" / "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    app:layout_constraintStart_toEndOf="@id/name"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/project_name"
+                    app:layout_constraintBottom_toTopOf="@id/description"
+                    />
+
+            <TextView
+                    android:id="@+id/project_name"
+                    android:text="@{dataModel.name}"
+                    tools:text="MPAndroidChart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    app:layout_constraintStart_toEndOf="@id/separator"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/description"
+                    />
+
+            <!-- Line 2 -->
+
+            <TextView
+                    android:id="@+id/description"
+                    android:text="@{dataModel.description}"
+                    tools:text="A powerful 🚀 Android chart view / graph view library, supporting line- bar- pie- radar- bubble- and candlestick charts as well as scaling, dragging and animations."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    android:textColor="@android:color/black"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    app:layout_constraintTop_toBottomOf="@+id/name"
+                    app:layout_constraintBottom_toTopOf="@id/stars"
+                    />
+
+            <!-- Line 3 -->
+            <TextView
+                    android:id="@+id/language"
+                    android:text="@{dataModel.language}"
+                    tools:text="Java"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    app:layout_constraintEnd_toStartOf="@id/stars"
+                    app:layout_constraintTop_toBottomOf="@+id/description"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+            <Button
+                    style="@style/StarFlatButton"
+                    android:id="@+id/stars"
+                    android:text="@{dataModel.stargazersCount.toString()}"
+                    tools:text="Star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    app:layout_constraintEnd_toStartOf="@id/forks"
+                    app:layout_constraintTop_toBottomOf="@+id/description"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:clickable="false"
+                    />
+
+            <Button
+                    style="@style/ForkFlatButton"
+                    android:id="@+id/forks"
+                    android:text="@{dataModel.forksCount.toString()}"
+                    tools:text="Fork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description"
+                    android:clickable="false"
+                    />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>

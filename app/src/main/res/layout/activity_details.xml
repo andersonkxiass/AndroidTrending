@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+                name="dataModel"
+                type="com.anderson.androidtrend.model.Item"/>
+
+        <variable
+                name="adapter"
+                type="com.anderson.androidtrend.features.details.ContributorAdapter"/>
+
+        <variable
+                name="layoutManager"
+                type="androidx.recyclerview.widget.LinearLayoutManager"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:bind="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            tools:context=".features.details.DetailsActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:fitsSystemWindows="true"
+                android:layout_height="@dimen/app_bar_height"
+                android:layout_width="match_parent"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                android:background="@drawable/header_shape"
+                app:collapsingChangedListener="@{dataModel.name}">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/collapsing"
+                    android:fitsSystemWindows="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:toolbarId="@+id/toolbar"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:contentScrim="?attr/colorPrimary">
+
+                <include
+                        app:layout_scrollFlags="scroll|enterAlways"
+                        bind:dataModel="@{dataModel}"
+                        android:layout_gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        layout="@layout/details_header_items"/>
+
+                <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_height="52dp"
+                        android:layout_width="match_parent"
+                        app:layout_collapseMode="pin"
+                        app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:showIn="@layout/activity_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:text="About"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_margin"
+                        android:layout_marginLeft="@dimen/text_margin"
+                        android:layout_marginStart="@dimen/text_margin"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        />
+
+                <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:layout_margin="@dimen/text_margin">
+
+                    <TextView
+                            android:text="@{dataModel.description}"
+                            tools:text="This is a library to make htto call eayse!"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+
+                    <TextView
+                            android:text="@{dataModel.description}"
+                            tools:text="This is a library to make htto call eayse!"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                        android:text="Contributors"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_margin"
+                        android:layout_marginLeft="@dimen/text_margin"
+                        android:layout_marginStart="@dimen/text_margin"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/contributors_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            app:adapter="@{adapter}"
+                            app:layoutManager="@{layoutManager}"
+                            tools:listitem="@layout/contributors_item"
+                            tools:reverseLayout="true"
+                            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+                tools:text="Apache License 2.0"
+                android:text="@{dataModel.license.name}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
