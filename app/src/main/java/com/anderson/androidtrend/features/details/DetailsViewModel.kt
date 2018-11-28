@@ -1,27 +1,36 @@
 package com.anderson.androidtrend.features.details
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anderson.androidtrend.model.Owner
 import com.anderson.androidtrend.utlis.Outcome
-import com.anderson.androidtrend.utlis.toLiveData
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class DetailsViewModel @Inject constructor(private val repository : DetailsRepository ) : ViewModel(){
 
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-
-    val outcomeData: LiveData<Outcome<List<Owner>>> by lazy {
-        repository.fetchOutcomeData.toLiveData(compositeDisposable)
-    }
+    val outcomeData : MutableLiveData<Outcome<List<Owner>>> = MutableLiveData()
+    lateinit var subscribe : Disposable
 
     fun getDetails(login : String,  name : String){
-        repository.fetchData(login, name)
+         subscribe = repository.fetchData(login, name)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                outcomeData.postValue(Outcome.success(result))
+            }, { error ->
+                outcomeData.postValue(Outcome.failure(error))
+            })
     }
 
     override fun onCleared() {
-        compositeDisposable.clear()
+
+        subscribe.let {
+            subscribe.dispose()
+        }
+
         super.onCleared()
     }
 }

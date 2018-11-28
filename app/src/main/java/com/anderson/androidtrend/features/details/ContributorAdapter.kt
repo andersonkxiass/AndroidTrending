@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.project_item.view.*
 
 class ContributorAdapter : RecyclerView.Adapter<ContributorAdapter.ViewHolder>(){
 
-    private var contributors: List<Owner>? = null
+    private lateinit var contributors: List<Owner>
 
     fun setData(repositories: List<Owner>){
         this.contributors = repositories
@@ -28,20 +28,15 @@ class ContributorAdapter : RecyclerView.Adapter<ContributorAdapter.ViewHolder>()
     }
 
     override fun getItemCount(): Int {
-
-        contributors?.let {
-            return contributors!!.size
-        }
-
-        return 0
+        return if(::contributors.isInitialized) contributors.size else 0
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
-        val contributor = contributors?.get(position)
+        val contributor = contributors[position]
 
         GlideApp.with(viewHolder.itemView.context)
-            .load(contributor!!.avatarUrl)
+            .load(contributor.avatarUrl)
             .apply(RequestOptions.circleCropTransform())
             .into(viewHolder.avatar)
     }

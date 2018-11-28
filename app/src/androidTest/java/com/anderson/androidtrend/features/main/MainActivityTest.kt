@@ -1,14 +1,15 @@
 package com.anderson.androidtrend.features.main
 
 import android.content.Intent
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.anderson.androidtrend.MockServerDispatcher
 import com.anderson.androidtrend.R
@@ -28,6 +29,7 @@ class MainActivityTest {
 
     private lateinit var activity : MainActivity
     private val webServer : MockWebServer = MockWebServer()
+    val context = InstrumentationRegistry.getInstrumentation().context!!
 
     @Before
     fun setUp() {
@@ -46,7 +48,7 @@ class MainActivityTest {
     @Test
     fun checkProjectItemView_isDisplayed() {
 
-        webServer.setDispatcher(MockServerDispatcher().RequestDispatcher())
+        webServer.setDispatcher(MockServerDispatcher(context).RequestDispatcher())
 
         activityRule.launchActivity(Intent())
 
@@ -57,7 +59,7 @@ class MainActivityTest {
     @Test
     fun click_ProjectItem() {
 
-        webServer.setDispatcher(MockServerDispatcher().RequestDispatcher())
+        webServer.setDispatcher(MockServerDispatcher(context).RequestDispatcher())
 
         activityRule.launchActivity(Intent())
 
@@ -69,7 +71,8 @@ class MainActivityTest {
                 )
             )
 
-        onView(withId(R.id.contributors_list)).check(matches(isDisplayed()))
+        onView(ViewMatchers.withId(R.id.contributors_list))
+            .perform(RecyclerViewActions.scrollToPosition<ProjectAdapter.ViewHolder>(5))
     }
 
     @After

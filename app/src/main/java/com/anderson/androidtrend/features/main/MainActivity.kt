@@ -1,6 +1,7 @@
 package com.anderson.androidtrend.features.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -47,17 +48,8 @@ class MainActivity : AppCompatActivity() {
 
                 when (outcome) {
 
-                    is Outcome.Progress -> {
-                        viewModel.onRetrieveStart()
-                    }
-
                     is Outcome.Success -> {
-                        viewModel.onRetrieveFinish()
-                        projectAdapter.setData(outcome.data as MutableList)
-                    }
-
-                    is Outcome.Failure -> {
-                        viewModel.onRetrieveFinish()
+                        projectAdapter.setData(outcome.data)
                     }
                 }
             })
