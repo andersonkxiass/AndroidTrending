@@ -38,11 +38,11 @@ class MainActivityTest {
     }
 
     @Test
-    fun checkListView(){
+    fun checkNetworkFailure(){
 
         activityRule.launchActivity(Intent())
 
-        onView(withId(R.id.project_list)).check(matches(isDisplayed()))
+        onView(withId(R.id.network_failure)).check(matches(isDisplayed()))
     }
 
     @Test
